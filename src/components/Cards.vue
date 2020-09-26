@@ -16,7 +16,7 @@
           <b-form-input type="text" v-model="search"></b-form-input>
           <b-input-group-append>
             <b-button variant="outline-primary" v-on:click="getData()">{{$t("search", {lng: $store.state.lang})}}</b-button>
-            <b-button variant="outline-primary" v-on:click="search = 'null' & getData()">{{$t("clear", {lng: $store.state.lang})}}</b-button>
+            <b-button variant="outline-primary" v-on:click="getData(true)">{{$t("clear", {lng: $store.state.lang})}}</b-button>
           </b-input-group-append>
         </b-input-group>
       </form>
@@ -121,10 +121,14 @@ export default {
       this.$store.commit('setPage', this.$store.state.page - 1)
       this.getData()
     },
-    async getData() {
+    async getData(clear) {
       let queryString = ''
       if (this.search) {
         queryString = `&name=${this.search}`
+      }
+      if (clear) {
+        this.search = null
+        queryString = ''
       }
       this.cards = []
       this.loading = true
